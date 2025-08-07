@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Замедление MP3</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input[type='file'], input[type='range'], button { display: block; margin: 15px 0; }
+    label { display: block; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Замедлитель MP3</h1>
+  <label>Загрузите MP3 файл:
+    <input type="file" id="fileInput" accept="audio/mp3">
+  </label>
+
+  <label>Скорость воспроизведения: <span id="speedLabel">100%</span>
+    <input type="range" id="speedControl" min="50" max="150" value="100">
+  </label>
+
+  <audio id="audio" controls></audio>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const audio = document.getElementById('audio');
+    const speedControl = document.getElementById('speedControl');
+    const speedLabel = document.getElementById('speedLabel');
+
+    fileInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        audio.src = url;
+        audio.load();
+      }
+    });
+
+    speedControl.addEventListener('input', function() {
+      const speedPercent = speedControl.value;
+      const playbackRate = speedPercent / 100;
+      speedLabel.textContent = `${speedPercent}%`;
+      audio.playbackRate = playbackRate;
+    });
+  </script>
+</body>
+</html>
